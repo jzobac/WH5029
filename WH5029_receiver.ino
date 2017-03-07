@@ -1,8 +1,8 @@
 /*
-autor		jzobac
-licence		CC BY-NC-SA 4.0
-copyright	Copyright (c) 2017 jzobac
-datum		Prosinec 2016
+autor    jzobac
+licence   CC BY-NC-SA 4.0
+copyright Copyright (c) 2017 jzobac
+datum   Prosinec 2016
 
 https://creativecommons.org/licenses/by-nc-sa/4.0/deed.cs
 
@@ -21,9 +21,9 @@ Pro použití musíte mít nainstalován rfcontrol.
 
 
 
-bool meteo_bits_array[88]; 	//88 bits of information; (192) pulzes
+bool meteo_bits_array[88];  //88 bits of information; (192) pulzes
 int rain_last = -1;
- 
+const byte const_id = 255;
 
 #include <RFControl.h>
  
@@ -50,7 +50,7 @@ void setup() {
   dprintln();
   dprintln(F("Boot"));
   RFControl::startReceiving(0);
-  //RFControl::startReceiving(D2);	//ESP8266
+  //RFControl::startReceiving(D2);  //ESP8266
 }
 
 void loop() {
@@ -81,9 +81,9 @@ void loop() {
 
     if (timings_size == 192)
     {
-      digitalWrite(LED_BUILTIN, true);	//swap true and false on ESP8266
+      digitalWrite(LED_BUILTIN, true);  //swap true and false on ESP8266
       get_data(timings_size, timings);
-      digitalWrite(LED_BUILTIN, false);	//swap true and false on ESP8266
+      digitalWrite(LED_BUILTIN, false); //swap true and false on ESP8266
     }
     #ifdef DEBUG
       else
@@ -210,7 +210,12 @@ void Decode_Temp()
 
     dprint(F("id: "));
     byte id = readBits(24, 8);
-    
+    if (id != const_id)
+    {
+    dprintln(F("ID nesedi! Koncim."));
+    return;
+    }
+  
     dprint(F("batt: "));
     boolean batt = meteo_bits_array[32];
     dprintln(batt);
