@@ -14,6 +14,8 @@ Tento kód slouží k příjmu a dekódování meteostanice WH5029 na Arduinu a 
 Kód dávám k dispozici bez jakýchkoliv záruk a zříkám se veškeré odpovědnosti za jakékoliv škody.
 
 Pro použití musíte mít nainstalován rfcontrol.
+
+Zmen promenou const_id na sve ID, jinak se nic neprijme, v prijatem kodu je to bit 25 - 32
 */
 
 
@@ -23,7 +25,7 @@ Pro použití musíte mít nainstalován rfcontrol.
 
 bool meteo_bits_array[88];  //88 bits of information; (192) pulzes
 int rain_last = -1;
-const byte const_id = 255;
+const byte const_id = xx;   //prepis na svoje ID (napr 180); v prijatem kodu z meteostanice je to bit 25 - 32
 
 #include <RFControl.h>
  
