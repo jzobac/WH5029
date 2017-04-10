@@ -383,7 +383,7 @@ boolean validate_two_complement_WH5029()
   bity = readBits(36, 4);
  
   dprintexp(bity);
-  if (bity == B1111 || bity == B0000) //pokud je 0000 je teplota kladna, pokud 1111 je zaporna, nic jineho neni akceptovatelne
+  if (bity == B1111 || bity == B0000 || bity == B0001) //pokud je 0000 je teplota kladna, pokud 1111 je zaporna, pokud je 0001 je teplota >= 25,6C, nic jineho neni akceptovatelne
     {
       dprintln(F("Validace two complement OK"));
       return true;
