@@ -314,6 +314,27 @@ void Decode_Temp()
 
     dprint(F("crc: "));
     dprintln(CRC);
+ 
+    // feelTemp calculation
+    char feeltempOut[7];
+    float feeltempcalc = (hum/100.0)*6.105*pow(2.71828,((17.27*(temp/10.0f))/(237.7+(temp/10.0f))));
+    float feeltemp = round(((temp/10.0f)+0.33*feeltempcalc-0.7*(wind_speed/3.6)-4)*10)/10.0;
+    dtostrf(feeltemp, 2, 1, feeltempOut);
+    dprint(F("feelTemp: "));
+    dprintln(feeltempOut);
+ 
+    // dewpoint calculation
+    float dewK = 237.7;
+    float dewZ = 6.11;
+    float dewC = 7.5;
+    float dewd = dewC*(temp/10.0f)/(dewK+(temp/10.0f));
+    float dewES = dewZ*pow(10,dewd);
+    float dewE = (hum*dewES)/100.0;
+    float dewf = log(dewE/dewZ);
+    float dewpoint = dewf*dewK/(dewC*log(10)-dewf);
+    dprint(F("dewpoint: "));
+    dprintln(dewpoint);
+ 
 }
 
 boolean check_crc_wh5029()
